@@ -1,28 +1,25 @@
 const Discord = require('discord.js');
-const ayarlar = require('../ayarlar.json');
+const client = new Discord.Client();
 
-exports.run = (bot, message, params) => {
-   const embed = new Discord.RichEmbed()
-   .setColor("RANDOM")
-   .setAuthor(message.guild.name, message.guild.userURL)
-   .setThumbnail(message.guild.userURL)
-   .addField('Varsayılan rol:', message.guild.defaultRole, true)
-   .addField('Roller:', message.guild.roles.map(role => role.name).join(', '), true)
-   .setFooter('Rol Listesi', message.guild.userURL)
-   .setTimestamp()
-   message.channel.send({embed});
-   message.react('✅')
- };
+exports.run = async (client, message) => {
+  const embed = new Discord.RichEmbed()
+  .setColor("RANDOM")
+            .setAuthor(message.guild.name, message.guild.iconURL)
+            .setTitle(`» Sunucuda Bulunan Roller`)
+            .setDescription(`${message.guild.roles.filter(r => r.name !== "@everyone").map(r => r).join(' **|** ') ? message.guild.roles.filter(r => r.name !== "@everyone").map(r => r).join(' **|** ') : 'Bu sunucuda hiç rol bulunmuyor.'}`)
+            return message.channel.send(embed)
+};
 
- exports.conf = {
-   enabled: true,
-   guildOnly: false,
-   aliases: [],
-   permLevel: 0
- };
+exports.conf = {
+  enabled: true,
+  guildOnly: false,
+  aliases: [],
+  permLevel: `Yetki gerekmiyor.`
+};
 
- exports.help = {
-   name: 'roller',
-   description: 'Roller.',
-   usage: 'roller'
- };
+exports.help = {
+  name: 'roller',
+  category: "sunucu",
+  description: 'Bulunduğunuz sunucudaki rolleri gösterir.',
+  usage: 'r?roller'
+};

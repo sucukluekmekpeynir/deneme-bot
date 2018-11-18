@@ -1,73 +1,54 @@
-const Discord = require("discord.js")
-
+const Discord = require('discord.js');
+const moment = require('moment');
 const { version } = require("discord.js");
-const moment = require("moment");
-const m = require("moment-duration-format");
-let os = require('os')
-let cpuStat = require("cpu-stat")
-const ms = require("ms")
-const ayarlar = require('../ayarlar.json');
+const os = require('os');
+let cpuStat = require("cpu-stat");
+const { stripIndents } = require('common-tags');
+require('moment-duration-format');
 
-var prefix = ayarlar.prefix;
+var ayarlar = require('../ayarlar.json');
 
-exports.run = (client, message, params) => {
+exports.run = (bot, message, args) => {
     let cpuLol;
-  if (!params[0]) {
-    const commandNames = Array.from(client.commands.keys());
-    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-    const duration = moment.duration(client.uptime).format(" D [gün], H [saat], m [dakika], s [saniye]");
-	message.channel.send({embed: {
-            color: 0xD97634,
-            author: {
-              name: "İstatistik Menüsü",
-              icon_url: "http://www.resimrehberi.com/files/file/cicekli-araba.jpg"
-            },
-            title: "Ping Durumu :",
-            description: `**${Math.round(client.ping)}**`,
-            fields: [
-      {
-                name: "Sunucu Sayısı :",
-                value: `**${client.guilds.size.toLocaleString()}**`
-              },     
-			{
-                name: "Kullanıcı Sayısı :",
-                value: `**${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}**`
-              },
-			{
-                name: "Bellek Kullanımı :",
-                value: `**${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB** / **32 GB**`
-              },
-			{
-                name: "CPU :",
-                value: `**${os.cpus().map(i => `${i.model}`)[0]}**`
-              },
-			{
-                name: "Sahibim VE Yardımcım :",
-                value: `**Sahibim: ! ƑƇ ★ Ahmet#1703**`
-              },
-			{
-                name: "Node.JS Sürümü :",
-                value: `**${process.version}**`
-              },
-            ],
-            timestamp: new Date(),
-            footer: {
-              icon_url: "http://www.resimrehberi.com/files/file/cicekli-araba.jpg",
-              text: "© Hayatın Anlamı"
-            }
-          }
-        });  
-  }};
+    cpuStat.usagePercent(function(err, percent, seconds) {
+        if (err) {
+            return console.log(err);
+        }
+        const duration = moment.duration(bot.uptime).format(" D [gün], H [saat], m [dakika], s [saniye]");
+        const embedStats = new Discord.RichEmbed()
+            .setAuthor(bot.user.username + " | İstatistikler", bot.user.avatarURL)
+            .setColor("RANDOM")
+            .addField("❯ Bellek Kullanımı", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`)
+            .addField("❯ Çalışma Süresi ", `${duration}`)
+            .addField("❯ Bot İstatistikleri", stripIndents`
+            \`\`\`yaml
+            Kullanici: ${bot.users.size.toLocaleString()} 
+            Sunucu: ${bot.guilds.size.toLocaleString()} 
+            Kanal: ${bot.channels.size.toLocaleString()}
+            Ping: ${Math.round(bot.ping)}ms.
+            \`\`\`
+            `)
+            .addField("❯ Versiyonlar", stripIndents`
+            » Discord.js: v${version}
+            » Node.js: ${process.version}
+            `)
+            .addField("❯ CPU", `\`\`\`yaml\n${os.cpus().map(i => `${i.model}`)[0]}\`\`\``)
+            .addField("❯ CPU Kullanımı", `%${percent.toFixed(2)}`)
+            .addField("❯ İşletim Sistemi", `${os.platform()} | ${os.arch()} Bit`) 
+        message.channel.send(embedStats)
+    });
+};
 
 exports.conf = {
-  enabled: true,
-  guildOnly: false,
-  aliases: ['i', 'istatik', 'botbilgi', 'bb'],
-  permLevel: 0
-};
-
-exports.help = {
-  name: 'istatistik',
-  description: 'Tüm komutları gösterir.',
-  usage: 'istatistik'
-};
+    enabled: true,
+    guildOnly: false,
+    aliases: ['i'],
+    permLevel: `Yetki gerekmiyor.`
+  };
+  
+  exports.help = {
+    name: 'istatistik',
+    category: "bot",
+    description: 'Botun istatistiklerini gösterir.',
+    usage: 'r?istatistik'
+  };
