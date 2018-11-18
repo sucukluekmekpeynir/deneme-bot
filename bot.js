@@ -453,7 +453,7 @@ client.on("ready", async message => {
   var Activity = [
       
 
-      "Yapımcım =  ahmet#3765",
+      "Yapımcım = ! ƊΛ ↬ [YT] 4 Kafadar Oyunda#4234",
     
       "Sunucunuza Almayı Unutmayın",
       
