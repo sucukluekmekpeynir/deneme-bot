@@ -1,4 +1,5 @@
 const ayarlar = require('../ayarlar.json');
+let talkedRecently = new Set();
 module.exports = message => {
   let client = message.client;
   if (message.author.bot) return;

@@ -453,7 +453,7 @@ client.on("ready", async message => {
   var Activity = [
       
 
-      "Yapımcım = ! ƊΛ ↬ [YT] 4 Kafadar Oyunda#4234",
+      "Yapımcım =  ahmet#3765",
     
       "Sunucunuza Almayı Unutmayın",
       
@@ -783,4 +783,4 @@ msg.channel.send('🚬☁☁☁')
 }
 });
 
-client.login(process.env.BOT_TOKEN);
+client.login(ayarlar.token);

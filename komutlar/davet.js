@@ -1,42 +1,24 @@
 const Discord = require('discord.js');
-const loglar = require('../ayarlar.json');
+const client = new Discord.Client();
 
-var prefix = loglar.prefix;
+exports.run = async (client, message) => {
+  const davet = new Discord.RichEmbed()
+.setColor("RANDOM")
+.setAuthor("» " + client.user.username + ' | Davet Linkleri')
+.setDescription(`[Botu Sunucuna Eklemek İçin Tıkla!](https://discordapp.com/oauth2/authorize?client_id=479240699938734090&scope=bot&permissions=2146958847) \n[Botun Destek Sunucusuna Gelmek İçin Tıkla](https://discord.gg/E9ZBk6D)`)
+message.channel.send(davet)
+};
 
-exports.run = (client, message, params) => {
-  if (!params[0]) {
-    const commandNames = Array.from(client.commands.keys());
-    message.channel.send({embed: {
-            color: 0xD97634,
-            author: {
-              name: "Davet Menüsü",
-              icon_url: "http://oi51.tinypic.com/2jg4gg6.jpg"
-            },
-                "thumbnail": {
-                 "url": "http://oi51.tinypic.com/2jg4gg6.jpg"
-            },
-            title: "",
-            description: "[Davet Linkim](https://discordapp.com/oauth2/authorize?client_id=502155109757878272&scope=bot&permissions=2146958847) \n[Destek Sunucusu](https://discord.gg/EhCqbYw)",
-            fields: [
-            ],
-            timestamp: new Date(),
-            footer: {
-              icon_url: "",
-              text: "Stronger "
-            }
-          }
-        });
-        message.react(":pencil:")
-}};
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ['d', 'link', 'linkler'],
-  permLevel: 0
+  aliases: ['linkler'],
+  permLevel: `Yetki gerekmiyor.`
 };
 
 exports.help = {
   name: 'davet',
-  description: 'Botun Davet Linkini Gösterir',
-  usage: 'davet'
+  category: 'bot',
+  description: 'Botun davet linklerini gösterir.',
+  usage: 'r?davet'
 };
