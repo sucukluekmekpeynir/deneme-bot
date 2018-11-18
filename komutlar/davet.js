@@ -16,7 +16,7 @@ exports.run = (client, message, params) => {
                  "url": "http://oi51.tinypic.com/2jg4gg6.jpg"
             },
             title: "",
-            description: "[Davet Linkim](https://discordapp.com/oauth2/authorize?client_id=511170773193588736&scope=bot&permissions=2146958847) \n[Destek Sunucusu](https://discord.gg/M2T4FGK)",
+            description: "[Davet Linkim](https://discordapp.com/oauth2/authorize?client_id=502155109757878272&scope=bot&permissions=2146958847) \n[Destek Sunucusu](https://discord.gg/EhCqbYw)",
             fields: [
             ],
             timestamp: new Date(),
